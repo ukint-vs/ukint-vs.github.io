@@ -30,7 +30,7 @@ const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-GB', {
 });
 
 const slug = Astro.url.pathname.replace(/\/$/, '').split('/').pop() || '';
-const ogImage = `${Astro.site}og/${slug}`;
+const ogImage = `${Astro.site}og/${slug}.png`;
 ---
 
 <BaseLayout title={frontmatter.title} description={frontmatter.description || ''} ogImage={ogImage}>
