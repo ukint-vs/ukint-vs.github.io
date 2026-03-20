@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+---
+
+<BaseLayout title="Writing — ~/ukint-vs" description="Blog posts by Vadim Smirnov">
+  <div class="container">
+    <h1 class="section-heading">Writing</h1>
+
+    {posts.length === 0 ? (
+      <p class="empty-state">Nothing here yet.</p>
+    ) : (
+      <ul class="writing-list">
+        {posts.map((post) => (
+          <li>
+            <a href={`/blog/${post.id}/`} class="writing-item">
+              <span class="writing-title">{post.data.title}</span>
+              <span class="writing-meta">{formatDate(post.data.date)}</span>
+              <p class="writing-desc">{post.data.description}</p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+</BaseLayout>
