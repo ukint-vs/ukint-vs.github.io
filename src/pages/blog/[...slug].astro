@@ -25,7 +25,7 @@ export async function getStaticPaths() {
 const { post, prevPost, nextPost } = Astro.props;
 const { Content, headings } = await render(post);
 
-const readingTime = `${Math.ceil(post.body!.split(/\s+/).length / 200)} min read`;
+const readingTime = `${Math.ceil((post.body || '').split(/\s+/).length / 200)} min read`;
 ---
 
 <ArticleLayout

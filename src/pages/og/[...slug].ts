@@ -30,6 +30,7 @@ export async function GET({ props }: APIContext) {
   });
 
   const tags = post.data.tags.map((t: string) => `#${t}`).join('  ');
+  const safeTitle = post.data.title.replace(/&/g, '&amp;').replace(/</g, '&lt;');
 
   const markup = html`
     <div
@@ -42,7 +43,7 @@ export async function GET({ props }: APIContext) {
         <div
           style="font-size: 52px; font-weight: 700; color: #1a1a1a; line-height: 1.2; max-width: 1000px;"
         >
-          ${post.data.title}
+          ${safeTitle}
         </div>
       </div>
       <div
