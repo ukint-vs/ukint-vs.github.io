@@ -46,14 +46,18 @@ const canonicalURL = Astro.url;
     <!-- Inline blocking script to prevent theme flash -->
     <script is:inline>
       (function() {
-        const stored = localStorage.getItem('theme');
-        if (stored) {
-          document.documentElement.dataset.theme = stored;
-        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          document.documentElement.dataset.theme = 'dark';
-        } else {
-          document.documentElement.dataset.theme = 'light';
+        function applyTheme() {
+          const stored = localStorage.getItem('theme');
+          if (stored) {
+            document.documentElement.dataset.theme = stored;
+          } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.dataset.theme = 'dark';
+          } else {
+            document.documentElement.dataset.theme = 'light';
+          }
         }
+        applyTheme();
+        document.addEventListener('astro:after-swap', applyTheme);
       })();
     </script>
   </head>
