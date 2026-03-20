@@ -1,0 +1,93 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import TOC from '../components/TOC.astro';
+import AuthorCard from '../components/AuthorCard.astro';
+import Giscus from '../components/Giscus.astro';
+import ReadingProgress from '../components/ReadingProgress.astro';
+
+interface Props {
+  frontmatter: {
+    title: string;
+    date: string;
+    description?: string;
+    tags?: string[];
+    subtitle?: string;
+    giscus?: boolean;
+    toc?: boolean;
+  };
+  readingTime?: string;
+  headings?: Array<{ depth: number; slug: string; text: string }>;
+  prevPost?: { slug: string; title: string };
+  nextPost?: { slug: string; title: string };
+}
+
+const { frontmatter, readingTime, headings = [], prevPost, nextPost } = Astro.props;
+
+const formattedDate = new Date(frontmatter.date).toLocaleDateString('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+
+const slug = Astro.url.pathname.replace(/\/$/, '').split('/').pop() || '';
+---
+
+<BaseLayout title={frontmatter.title} description={frontmatter.description || ''}>
+  <ReadingProgress />
+
+  <div class="container">
+    <article>
+      <div class="article-header">
+        <a href="/blog/" class="article-back">&larr; back to writing</a>
+        <div class="article-meta">
+          <time datetime={frontmatter.date}>{formattedDate}</time>
+          {readingTime && <span class="reading-time">{readingTime}</span>}
+        </div>
+        <h1 class="article-title">{frontmatter.title}</h1>
+        {frontmatter.subtitle && (
+          <p class="article-subtitle">{frontmatter.subtitle}</p>
+        )}
+        {frontmatter.tags && frontmatter.tags.length > 0 && (
+          <div class="article-tags">
+            {frontmatter.tags.map((tag) => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {frontmatter.toc && headings.length > 0 && (
+        <TOC headings={headings} />
+      )}
+
+      <div class="article-body">
+        <slot />
+      </div>
+
+      <div class="article-footer">
+        <AuthorCard />
+
+        {(prevPost || nextPost) && (
+          <nav class="prev-next">
+            {prevPost ? (
+              <a href={`/blog/${prevPost.slug}/`} class="prev-next-link prev">
+                <span class="prev-next-label">&larr; Previous</span>
+                <span class="prev-next-title">{prevPost.title}</span>
+              </a>
+            ) : <div />}
+            {nextPost ? (
+              <a href={`/blog/${nextPost.slug}/`} class="prev-next-link next">
+                <span class="prev-next-label">Next &rarr;</span>
+                <span class="prev-next-title">{nextPost.title}</span>
+              </a>
+            ) : <div />}
+          </nav>
+        )}
+      </div>
+
+      {frontmatter.giscus && (
+        <Giscus slug={slug} />
+      )}
+    </article>
+  </div>
+</BaseLayout>

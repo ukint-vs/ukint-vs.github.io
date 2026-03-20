@@ -1,0 +1,47 @@
+---
+import { getCollection, render } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('blog'))
+    .filter((post) => !post.data.draft)
+    .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+
+  return posts.map((post, index) => {
+    const prev = index > 0 ? posts[index - 1] : null;
+    const next = index < posts.length - 1 ? posts[index + 1] : null;
+
+    return {
+      params: { slug: post.id },
+      props: {
+        post,
+        prevPost: prev ? { slug: prev.id, title: prev.data.title } : null,
+        nextPost: next ? { slug: next.id, title: next.data.title } : null,
+      },
+    };
+  });
+}
+
+const { post, prevPost, nextPost } = Astro.props;
+const { Content, headings } = await render(post);
+
+const readingTime = `${Math.ceil(post.body!.split(/\s+/).length / 200)} min read`;
+---
+
+<ArticleLayout
+  frontmatter={{
+    title: post.data.title,
+    date: post.data.date.toISOString().split('T')[0],
+    description: post.data.description,
+    tags: post.data.tags,
+    subtitle: post.data.subtitle,
+    giscus: post.data.giscus,
+    toc: post.data.toc,
+  }}
+  readingTime={readingTime}
+  headings={headings}
+  prevPost={prevPost}
+  nextPost={nextPost}
+>
+  <Content />
+</ArticleLayout>

@@ -1,0 +1,25 @@
+---
+---
+
+<div class="reading-progress"></div>
+
+<script is:inline>
+  function initReadingProgress() {
+    var bar = document.querySelector('.reading-progress');
+    if (!bar || bar.dataset.initialized) return;
+    bar.dataset.initialized = 'true';
+
+    function updateProgress() {
+      var scrollTop = window.scrollY;
+      var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      var progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      bar.style.width = Math.min(progress, 100) + '%';
+    }
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+  }
+
+  initReadingProgress();
+  document.addEventListener('astro:after-swap', initReadingProgress);
+</script>

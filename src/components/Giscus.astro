@@ -1,0 +1,75 @@
+---
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+---
+
+<div class="giscus-container">
+  <div class="giscus"></div>
+</div>
+
+<script define:vars={{ slug }}>
+  function loadGiscus() {
+    const container = document.querySelector('.giscus-container');
+    if (!container) return;
+
+    // Remove old iframe if present (View Transitions)
+    const oldIframe = container.querySelector('iframe.giscus-frame');
+    if (oldIframe) oldIframe.remove();
+
+    // Remove old script if present
+    const oldScript = container.querySelector('script[src*="giscus.app"]');
+    if (oldScript) oldScript.remove();
+
+    const theme = document.documentElement.dataset.theme === 'dark'
+      ? 'noborder_dark'
+      : 'noborder_light';
+
+    const script = document.createElement('script');
+    script.src = 'https://giscus.app/client.js';
+    script.dataset.repo = 'ukint-vs/ukint-vs.github.io';
+    script.dataset.repoId = 'MDEwOlJlcG9zaXRvcnkzNDkzMjI1Nzc=';
+    script.dataset.category = 'Announcements';
+    script.dataset.categoryId = 'DIC_kwDOFNI9Uc4CYOUr';
+    script.dataset.mapping = 'specific';
+    script.dataset.term = slug;
+    script.dataset.strict = '1';
+    script.dataset.reactionsEnabled = '1';
+    script.dataset.emitMetadata = '0';
+    script.dataset.inputPosition = 'top';
+    script.dataset.theme = theme;
+    script.dataset.lang = 'en';
+    script.dataset.loading = 'lazy';
+    script.crossOrigin = 'anonymous';
+    script.async = true;
+    container.appendChild(script);
+  }
+
+  function updateGiscusTheme() {
+    const theme = document.documentElement.dataset.theme === 'dark'
+      ? 'noborder_dark'
+      : 'noborder_light';
+    const iframe = document.querySelector('iframe.giscus-frame');
+    if (iframe) {
+      iframe.contentWindow.postMessage(
+        { giscus: { setConfig: { theme } } },
+        'https://giscus.app'
+      );
+    }
+  }
+
+  // Observe theme changes
+  const observer = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      if (mutation.attributeName === 'data-theme') {
+        updateGiscusTheme();
+      }
+    }
+  });
+  observer.observe(document.documentElement, { attributes: true });
+
+  loadGiscus();
+  document.addEventListener('astro:after-swap', loadGiscus);
+</script>
