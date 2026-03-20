@@ -617,7 +617,8 @@ footer {
 
 /* === Tables === */
 .article-body table {
-    width: 100%;
+    width: max-content;
+    max-width: 100%;
     border-collapse: collapse;
     margin: 2rem 0;
     font-family: var(--sans);
