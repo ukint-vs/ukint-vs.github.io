@@ -102,18 +102,7 @@ const projects = [
     <section id="writing">
       <h2 class="section-heading">Writing</h2>
       <ul class="writing-list">
-        {allPostsSorted.map((post) =>
-          post.data.draft ? (
-            <li>
-              <div class="writing-item">
-                <span class="writing-title">
-                  {post.data.title}
-                  <span class="draft-badge">draft</span>
-                </span>
-                <p class="writing-desc">{post.data.description}</p>
-              </div>
-            </li>
-          ) : (
+        {recentPublished.map((post) => (
             <li>
               <a href={`/blog/${post.id}/`} class="writing-item">
                 <span class="writing-title">{post.data.title}</span>
