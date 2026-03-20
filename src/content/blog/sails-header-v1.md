@@ -7,7 +7,7 @@ giscus: true
 toc: true
 ---
 
-> **📢 Update (March 2026):** **Sails v1.0.0-beta.1**🛥 is now released! The Sails Header (v1) described in this post has shipped as part of this release, alongside IDL V2, new interface ID and ReflectHash specs. This article was written in December 2024 when the specification was still in development — it is now live. → [Release notes on GitHub](https://github.com/gear-tech/sails/releases/tag/rs%2Fv1.0.0-beta.1)
+> **📢 Update (March 2026):** **Sails v1.0.0-beta.1**🛥 is now released! The Sails Header (v1) described in this post has shipped as part of this release, alongside IDL V2, new interface ID and ReflectHash specs. This article was written in December 2025 when the specification was still in development — it is now live. → [Release notes on GitHub](https://github.com/gear-tech/sails/releases/tag/rs%2Fv1.0.0-beta.1)
 
 ---
 
