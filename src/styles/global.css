@@ -368,6 +368,13 @@ footer {
 .project-name:hover {
     text-decoration: underline;
 }
+.project-lang {
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+    margin-left: 0.4rem;
+}
 .project-desc {
     font-size: 0.88rem;
     color: var(--text-secondary);
