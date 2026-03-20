@@ -615,6 +615,32 @@ footer {
     margin-bottom: 0.5rem;
 }
 
+/* === Tables === */
+.article-body table {
+    width: max-content;
+    max-width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-family: var(--sans);
+    font-size: 0.95rem;
+}
+.article-body thead th {
+    font-weight: 600;
+    color: var(--ink);
+    text-align: left;
+    padding: 0.6rem 1rem;
+    white-space: nowrap;
+    border-bottom: 2px solid var(--accent);
+}
+.article-body td {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text);
+}
+.article-body tbody tr:last-child td {
+    border-bottom: none;
+}
+
 /* === Code Blocks === */
 .article-body code {
     font-family: var(--mono);
