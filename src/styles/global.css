@@ -645,7 +645,7 @@ footer {
 .article-body code {
     font-family: var(--mono);
     font-size: 0.88rem;
-    background: var(--bg-warm);
+    background: var(--border-light);
     padding: 0.15rem 0.4rem;
     border-radius: 3px;
     color: var(--accent);
@@ -678,13 +678,18 @@ footer {
     color: #e2ddd7;
     border-radius: 0;
 }
-/* Shiki dual theme support — swap light/dark via CSS variables */
-[data-theme="dark"] .astro-code,
-[data-theme="dark"] .shiki,
-[data-theme="dark"] .astro-code span,
-[data-theme="dark"] .shiki span {
+/* Shiki dual theme support — dark code blocks in both themes */
+.astro-code,
+.shiki {
+    background-color: var(--bg-code) !important;
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+.astro-code span,
+.shiki span {
     color: var(--shiki-dark) !important;
-    background-color: var(--shiki-dark-bg) !important;
+    background-color: transparent !important;
     font-style: var(--shiki-dark-font-style) !important;
     font-weight: var(--shiki-dark-font-weight) !important;
     text-decoration: var(--shiki-dark-text-decoration) !important;
