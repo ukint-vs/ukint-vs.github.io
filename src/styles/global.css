@@ -668,6 +668,7 @@ footer {
     background: var(--bg-code);
     border-radius: 8px;
     overflow-x: auto;
+    max-width: 100%;
     position: relative;
 }
 .article-body pre::before {
