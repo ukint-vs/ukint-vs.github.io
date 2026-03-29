@@ -145,6 +145,7 @@ a:hover {
     max-width: var(--max-width);
     margin: 0 auto;
     padding: 0 2rem;
+    overflow-x: hidden;
 }
 
 /* === Nav === */
@@ -668,7 +669,7 @@ footer {
     background: var(--bg-code);
     border-radius: 8px;
     overflow-x: auto;
-    max-width: 100%;
+    max-width: calc(100vw - 2.4rem);
     position: relative;
 }
 .article-body pre::before {
@@ -762,9 +763,11 @@ footer {
 /* === Full-width figure === */
 .full-width {
     margin: 2.5rem -2rem;
+    overflow: hidden;
 }
 .full-width img {
     width: 100%;
+    max-width: 100vw;
     border-radius: 8px;
     border: 1px solid var(--border);
 }
