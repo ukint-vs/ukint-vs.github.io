@@ -52,7 +52,14 @@
 </style>
 
 <script>
+  let cleanupFn: (() => void) | null = null;
+
   function init() {
+    if (cleanupFn) {
+      cleanupFn();
+      cleanupFn = null;
+    }
+
     const btn = document.getElementById('scroll-top');
     if (!btn) return;
 
@@ -63,14 +70,20 @@
       btn.classList.toggle('visible', getScrollY() > 500);
     };
 
+    const onClick = () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
     window.addEventListener('scroll', toggle, { passive: true });
-    // Also check on touchmove for mobile browsers that batch scroll events
     window.addEventListener('touchmove', toggle, { passive: true });
+    btn.addEventListener('click', onClick);
     toggle();
 
-    btn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    cleanupFn = () => {
+      window.removeEventListener('scroll', toggle);
+      window.removeEventListener('touchmove', toggle);
+      btn.removeEventListener('click', onClick);
+    };
   }
 
   document.addEventListener('astro:page-load', init);

@@ -16,10 +16,10 @@
 
 <script>
   const CHARS = '.:+-=*#@$&~<>[]|/\\';
-  const BURST_COUNT = 4;
-  const PARTICLE_LIFE = 0.8; // seconds
-  const GRAVITY = 30;
-  const SCROLL_THROTTLE = 50; // ms between bursts
+  const BURST_COUNT = 3;
+  const PARTICLE_LIFE = 0.6; // seconds
+  const GRAVITY = 20;
+  const SCROLL_THROTTLE = 30; // ms between bursts
 
   type Spark = {
     x: number; y: number;
@@ -70,19 +70,22 @@
     let animId = 0;
     let running = false;
 
-    function burst(x: number, y: number) {
+    function burst(x: number, y: number, scrollDelta: number) {
+      // scrollDelta > 0 = scrolling down, particles trail upward
+      const scrollSpeed = Math.min(Math.abs(scrollDelta), 200);
+      const dir = scrollDelta > 0 ? -1 : 1; // opposite to scroll
       for (let i = 0; i < BURST_COUNT; i++) {
-        const angle = Math.random() * Math.PI * 2;
-        const speed = 40 + Math.random() * 80;
+        const spread = (Math.random() - 0.5) * 60;
+        const drift = dir * (60 + scrollSpeed * 0.8 + Math.random() * 40);
         sparks.push({
-          x,
-          y,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed - 20, // slight upward bias
+          x: x + (Math.random() - 0.5) * 10,
+          y: y + (Math.random() - 0.5) * 10,
+          vx: spread,
+          vy: drift,
           char: CHARS[Math.floor(Math.random() * CHARS.length)],
-          life: PARTICLE_LIFE + Math.random() * 0.3,
-          maxLife: PARTICLE_LIFE + Math.random() * 0.3,
-          size: 8 + Math.random() * 4,
+          life: PARTICLE_LIFE + Math.random() * 0.2,
+          maxLife: PARTICLE_LIFE + Math.random() * 0.2,
+          size: 7 + Math.random() * 4,
         });
       }
       if (!running) {
@@ -164,13 +167,38 @@
       touchY = -1;
     };
 
-    // Spawn particles on scroll when finger/mouse is tracked
+    // Track scroll delta for directional particles
+    let lastScrollY = window.scrollY;
+
+    let pendingWheel = 0;
+    const onWheel = (e: WheelEvent) => {
+      if (touchX < 0) return;
+      pendingWheel = e.deltaY;
+      // Defer to next frame so scrollY reflects the wheel event
+      requestAnimationFrame(() => {
+        if (pendingWheel === 0) return;
+        const delta = pendingWheel;
+        pendingWheel = 0;
+        const atTop = window.scrollY <= 0 && delta < 0;
+        const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 1 && delta > 0;
+        if (atTop || atBottom) return;
+        const now = performance.now();
+        if (now - lastBurst < SCROLL_THROTTLE) return;
+        lastBurst = now;
+        burst(touchX, touchY, delta);
+      });
+    };
+
     const onScroll = () => {
       if (touchX < 0) return;
+      const delta = window.scrollY - lastScrollY;
+      lastScrollY = window.scrollY;
+      // Only burst if the page actually moved
+      if (Math.abs(delta) < 2) return;
       const now = performance.now();
       if (now - lastBurst < SCROLL_THROTTLE) return;
       lastBurst = now;
-      burst(touchX, touchY);
+      burst(touchX, touchY, delta);
     };
 
     window.addEventListener('touchstart', onTouchStart, { passive: true });
@@ -179,6 +207,7 @@
     window.addEventListener('mousemove', onMouseMove, { passive: true });
     document.addEventListener('mouseleave', onMouseLeave);
     window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('wheel', onWheel, { passive: true });
     window.addEventListener('resize', resize);
 
     // Reset when window loses focus to prevent stale-position sparks
@@ -196,6 +225,7 @@
       window.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseleave', onMouseLeave);
       window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('wheel', onWheel);
       window.removeEventListener('resize', resize);
       window.removeEventListener('blur', clearPos);
       document.removeEventListener('visibilitychange', onVisChange);
