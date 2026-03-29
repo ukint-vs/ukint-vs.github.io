@@ -11,6 +11,8 @@
     bottom: 2rem;
     right: 2rem;
     width: 44px;
+    min-width: 44px;
+    max-width: 44px;
     height: 44px;
     border: 1.5px solid var(--accent);
     border-radius: 8px;
@@ -26,6 +28,7 @@
     transition: opacity 0.3s, transform 0.15s, background 0.15s;
     z-index: 50;
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     justify-content: center;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
