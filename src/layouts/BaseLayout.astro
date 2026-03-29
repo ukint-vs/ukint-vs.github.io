@@ -3,6 +3,8 @@ import { ClientRouter } from 'astro:transitions';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import CopyCode from '../components/CopyCode.astro';
+import TextScramble from '../components/TextScramble.astro';
+import ScrollSpark from '../components/ScrollSpark.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -75,5 +77,7 @@ const canonicalURL = Astro.url;
     </main>
     <Footer />
     <CopyCode />
+    <TextScramble />
+    <ScrollSpark />
   </body>
 </html>

@@ -1,0 +1,83 @@
+---
+---
+
+<script>
+  const POOL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*~+-=.:';
+  const DURATION = 600; // ms
+
+  function scramble(el: HTMLElement) {
+    const final = el.textContent || '';
+    if (!final.length) return;
+
+    // Lock dimensions to prevent layout shift
+    const w = el.offsetWidth;
+    const h = el.offsetHeight;
+    el.style.minWidth = w + 'px';
+    el.style.minHeight = h + 'px';
+    el.style.display = 'inline-block';
+
+    const start = performance.now();
+
+    function tick(now: number) {
+      const progress = Math.min((now - start) / DURATION, 1);
+      // Ease-out cubic for satisfying deceleration
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const resolved = Math.floor(eased * final.length);
+
+      let out = '';
+      for (let i = 0; i < final.length; i++) {
+        if (i < resolved) {
+          out += final[i];
+        } else if (final[i] === ' ') {
+          out += ' ';
+        } else {
+          out += POOL[Math.floor(Math.random() * POOL.length)];
+        }
+      }
+
+      el.textContent = out;
+
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        el.textContent = final;
+        el.style.minWidth = '';
+        el.style.minHeight = '';
+        el.style.display = '';
+      }
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  let firstLoad = true;
+
+  document.addEventListener('astro:page-load', () => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    if (firstLoad) {
+      firstLoad = false;
+      // On initial load: scramble the intro heading on mobile (where canvas is hidden)
+      const introHeading = document.querySelector('.intro-heading') as HTMLElement | null;
+      if (introHeading && introHeading.offsetParent !== null) {
+        scramble(introHeading);
+      }
+      return;
+    }
+
+    // On view transitions: scramble the main visible title
+    const target =
+      document.querySelector('.article-title') as HTMLElement |
+      null;
+
+    if (target && target.offsetParent !== null) {
+      scramble(target);
+    }
+
+    // Also scramble section headings with stagger
+    const headings = document.querySelectorAll('.section-heading') as NodeListOf<HTMLElement>;
+    headings.forEach((h, i) => {
+      setTimeout(() => scramble(h), i * 120);
+    });
+  });
+</script>

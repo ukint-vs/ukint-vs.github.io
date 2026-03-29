@@ -305,6 +305,18 @@ footer {
     display: block;
 }
 
+/* === ASCII Hero: hide text heading when canvas is present === */
+@media (prefers-reduced-motion: no-preference) {
+    .ascii-hero ~ .intro-heading {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+    }
+}
+
 /* === Home: Now === */
 .now-block {
     padding: 1.5rem;

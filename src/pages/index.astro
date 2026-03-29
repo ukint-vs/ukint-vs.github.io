@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import AsciiHero from '../components/AsciiHero.astro';
 import { getCollection } from 'astro:content';
 
 const allPosts = await getCollection('blog');
@@ -53,13 +54,12 @@ const projects = [
     <div class="container">
       <section class="intro">
         <div class="intro-text">
-          <h1 class="intro-heading">
-            devlog~
-            <span class="cat-mascot cat-mobile-only">
-              <img src="/img/cat-light.webp" alt="Cat mascot" class="cat-light" />
-              <img src="/img/cat-dark.webp" alt="Cat mascot" class="cat-dark" />
-            </span>
-          </h1>
+          <AsciiHero />
+          <h1 class="intro-heading">devlog~</h1>
+          <span class="cat-mascot cat-mobile-only">
+            <img src="/img/cat-light.webp" alt="Cat mascot" class="cat-light" />
+            <img src="/img/cat-dark.webp" alt="Cat mascot" class="cat-dark" />
+          </span>
           <p class="intro-bio">
             Software engineer at <a href="https://gear-tech.io">Gear Protocol</a> / <a href="https://vara.network">Vara Network</a>.
             Building AI agent tooling for Web3 — from on-chain wallets to coding skills
