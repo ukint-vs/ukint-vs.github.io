@@ -16,7 +16,8 @@
 </style>
 
 <script>
-  const CHARS = '.:+-=*#@$&~<>{}[]|/\\';
+  const CHARS_FULL = '.:+-=*#@&~<>{}[]|/\\';
+  const CHARS_DOTS = '01';
   const SPRING = 0.04;
   const DAMP = 0.88;
 
@@ -60,13 +61,14 @@
 
     // Responsive sizing
     const isMobile = window.innerWidth <= 600;
+    const CHARS = isMobile ? CHARS_DOTS : CHARS_FULL;
     const parentW = (heroEl.parentElement as HTMLElement).offsetWidth;
-    const STEP = isMobile ? 4 : 4;
-    const CHAR_SIZE = isMobile ? 5 : 6;
-    const MOUSE_R = isMobile ? 60 : 100;
+    const STEP = isMobile ? 2 : 4;
+    const CHAR_SIZE = isMobile ? 3 : 6;
+    const MOUSE_R = isMobile ? 50 : 100;
     const MOUSE_F = isMobile ? 5 : 3;
-    const sampleSize = isMobile ? 48 : 80;
-    const H = isMobile ? 60 : 100;
+    const baseFontSize = 80; // used to calculate scale ratio
+    const H = isMobile ? 58 : 100;
 
     canvas.style.width = parentW + 'px';
     canvas.style.height = H + 'px';
@@ -75,18 +77,30 @@
     ctx.scale(dpr, dpr);
 
     document.fonts.ready.then(() => {
-      const sampleFont = `600 ${sampleSize}px "IBM Plex Mono", monospace`;
+      // Scale font to fill container width
+      const tmp = document.createElement('canvas').getContext('2d')!;
+      tmp.font = `600 ${baseFontSize}px "IBM Plex Mono", monospace`;
+      const naturalW = tmp.measureText('devlog~').width;
+      const scaledSize = Math.floor(baseFontSize * (parentW / naturalW) * 0.95);
+      const sampleFont = `600 ${scaledSize}px "IBM Plex Mono", monospace`;
+
+      // Also scale canvas height to fit the larger text
+      const scaledH = Math.max(H, Math.ceil(scaledSize * 1.3));
+      canvas.style.height = scaledH + 'px';
+      canvas.width = parentW * dpr;
+      canvas.height = scaledH * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
       const off = document.createElement('canvas');
       off.width = parentW;
-      off.height = H;
+      off.height = scaledH;
       const oc = off.getContext('2d')!;
       oc.font = sampleFont;
       oc.fillStyle = '#fff';
       oc.textBaseline = 'middle';
-      oc.fillText('devlog~', 0, H / 2);
+      oc.fillText('devlog~', 0, scaledH / 2);
 
-      const img = oc.getImageData(0, 0, parentW, H);
+      const img = oc.getImageData(0, 0, parentW, scaledH);
 
       type P = {
         x: number; y: number;
@@ -101,18 +115,18 @@
 
       const particles: P[] = [];
 
-      for (let y = 0; y < H; y += STEP) {
+      for (let y = 0; y < scaledH; y += STEP) {
         for (let x = 0; x < parentW; x += STEP) {
           const i = (y * parentW + x) * 4;
           if (img.data[i + 3] > 100) {
             particles.push({
               x: x + (Math.random() - 0.5) * parentW * 0.5,
-              y: y + (Math.random() - 0.5) * H * 2.5,
+              y: y + (Math.random() - 0.5) * scaledH * 2.5,
               tx: x, ty: y,
               vx: 0, vy: 0,
               char: CHARS[Math.floor(Math.random() * CHARS.length)],
               a: 0,
-              ta: 0.85 + Math.random() * 0.15,
+              ta: isMobile ? 0.95 + Math.random() * 0.05 : 0.85 + Math.random() * 0.15,
               text: true,
               phase: Math.random() * Math.PI * 2,
               delay: (x / parentW) * 1.2,
@@ -124,7 +138,7 @@
       const ambientCount = Math.max(30, Math.floor(particles.length * 0.15));
       for (let i = 0; i < ambientCount; i++) {
         const px = Math.random() * parentW;
-        const py = Math.random() * H;
+        const py = Math.random() * scaledH;
         particles.push({
           x: px, y: py,
           tx: px, ty: py,
@@ -172,7 +186,7 @@
 
       function frame(now: number) {
         const elapsed = (now - t0) / 1000;
-        ctx.clearRect(0, 0, parentW, H);
+        ctx.clearRect(0, 0, parentW, scaledH);
         ctx.font = `500 ${CHAR_SIZE}px "IBM Plex Mono", monospace`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -216,8 +230,8 @@
             p.ty += (Math.random() - 0.5) * 0.2;
             if (p.x < -20) p.x = p.tx = parentW + 10;
             if (p.x > parentW + 20) p.x = p.tx = -10;
-            if (p.y < -20) p.y = p.ty = H + 10;
-            if (p.y > H + 20) p.y = p.ty = -10;
+            if (p.y < -20) p.y = p.ty = scaledH + 10;
+            if (p.y > scaledH + 20) p.y = p.ty = -10;
             if (Math.random() < 0.003) {
               p.char = CHARS[Math.floor(Math.random() * CHARS.length)];
             }
