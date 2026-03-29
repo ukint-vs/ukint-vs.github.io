@@ -1,0 +1,77 @@
+---
+---
+
+<button id="scroll-top" class="scroll-top" aria-label="Scroll to top" type="button">
+  <span aria-hidden="true">&uarr;</span>
+</button>
+
+<style>
+  .scroll-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 44px;
+    height: 44px;
+    border: 1.5px solid var(--accent);
+    border-radius: 8px;
+    background: var(--bg-warm);
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    touch-action: manipulation;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.15s, background 0.15s;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  .scroll-top.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .scroll-top:hover {
+    background: var(--accent);
+    color: var(--bg);
+  }
+  .scroll-top:active {
+    transform: scale(0.92);
+  }
+  @media (max-width: 600px) {
+    .scroll-top {
+      bottom: 1.5rem;
+      right: 1rem;
+      width: 44px;
+      height: 44px;
+    }
+  }
+</style>
+
+<script>
+  function init() {
+    const btn = document.getElementById('scroll-top');
+    if (!btn) return;
+
+    const getScrollY = () =>
+      window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+
+    const toggle = () => {
+      btn.classList.toggle('visible', getScrollY() > 500);
+    };
+
+    window.addEventListener('scroll', toggle, { passive: true });
+    // Also check on touchmove for mobile browsers that batch scroll events
+    window.addEventListener('touchmove', toggle, { passive: true });
+    toggle();
+
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  document.addEventListener('astro:page-load', init);
+</script>
