@@ -7,8 +7,6 @@ giscus: true
 toc: true
 ---
 
-# Building a Vara DApp with Hermes Agent
-
 I set up a Hermes agent, installed the vara-skills and vara-wallet CLI, and built a full on-chain game from scratch — smart contract, tests, CLI client, and a new React frontend. Here's exactly how it went down.
 
 ## The Stack
@@ -168,8 +166,8 @@ Key pitfall we discovered: `@polkadot/api` 16.5.x breaks standard Sails queries.
 
 ## The Result
 
-- **Live on mainnet**: `0x1de134d3...ff43cfa`
-- **Live on testnet**: `0x02e1e2f3...b79495`
+- **Live on mainnet**: `0x1de134d3723429b48552e5dc83264ca9124ca1ea99a781de41d6311abff43cfa`
+- **Live on testnet**: `0x02e1e2f34411eca5da56425b88b82d9825052beb53adda07ba0e23662ab79495`
 - **1000 VARA bounty** on both networks
 - **Play from CLI** in 5 commands or via the web UI
 
