@@ -180,7 +180,7 @@ header nav {
     font-size: 0.82rem;
     color: var(--text-tertiary);
     text-decoration: none;
-    transition: color 0.15s;
+    transition: color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .nav-links a:hover {
     color: var(--text);
@@ -200,7 +200,7 @@ header nav {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: color 0.15s;
+    transition: color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .theme-toggle:hover {
     color: var(--text);
@@ -236,6 +236,7 @@ footer {
     font-size: 0.8rem;
     color: var(--text-tertiary);
     text-decoration: none;
+    transition: color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .footer-links a:hover {
     color: var(--accent);
@@ -267,6 +268,9 @@ footer {
     font-size: 1rem;
     line-height: 1.75;
     color: var(--text);
+}
+.intro-bio + .intro-bio {
+    margin-top: 1rem;
 }
 .intro-bio a {
     text-decoration: underline;
@@ -365,21 +369,29 @@ footer {
     margin-bottom: 3rem;
 }
 .project-item {
-    padding: 1rem 0;
+    padding: 1.25rem 0 1.25rem 0.75rem;
+    margin-left: -0.75rem;
     border-bottom: 1px solid var(--border-light);
+    transition: box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.project-item:first-child {
+    border-top: 1px solid var(--border-light);
 }
 .project-item:last-child {
     border-bottom: none;
 }
+.project-item:not(.project-group):hover {
+    box-shadow: inset 3px 0 0 var(--accent);
+}
 .project-name {
     font-family: var(--mono);
-    font-size: 0.88rem;
+    font-size: 0.95rem;
     font-weight: 500;
     color: var(--accent);
     text-decoration: none;
 }
-.project-name:hover {
-    text-decoration: underline;
+.project-subitem .project-name {
+    font-size: 0.85rem;
 }
 .project-lang {
     font-family: var(--sans);
@@ -394,11 +406,72 @@ footer {
     margin-top: 0.3rem;
     line-height: 1.6;
 }
-.project-meta {
+.project-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.4rem;
+}
+.project-arrow {
+    display: inline-block;
     font-family: var(--mono);
-    font-size: 0.7rem;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    margin-top: 0.5rem;
+    transition: color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.project-arrow:hover {
+    color: var(--accent);
+}
+.project-item:not(.project-group):hover .project-arrow {
+    color: var(--accent);
+    transform: translateX(4px);
+}
+.project-subitem {
+    padding-left: 0.5rem;
+    margin-left: -0.5rem;
+    transition: box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.project-subitem:hover {
+    box-shadow: inset 2px 0 0 var(--accent);
+}
+.project-subitem:hover .project-arrow {
+    color: var(--accent);
+    transform: translateX(4px);
+}
+.project-role {
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    margin-top: 0.2rem;
+    font-style: italic;
+}
+.project-group-label {
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: var(--text-tertiary);
-    margin-top: 0.3rem;
+}
+.project-group-desc {
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
+    margin-top: 0.2rem;
+    margin-bottom: 0.75rem;
+}
+.project-sublist {
+    list-style: none;
+    border-left: 2px solid var(--border);
+    padding-left: 1rem;
+    margin-top: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+.project-subitem {
+    /* inherits project-name, project-lang, project-desc styles */
 }
 
 /* === Home: Writing === */
@@ -412,7 +485,7 @@ footer {
     display: block;
     text-decoration: none;
     color: inherit;
-    transition: background 0.15s;
+    transition: background 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .writing-item:hover {
     text-decoration: none;
@@ -940,5 +1013,46 @@ footer {
     }
     .full-width {
         margin: 2rem 0;
+    }
+}
+
+/* === Load Animations === */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.project-item {
+    animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.project-item:nth-child(1) { animation-delay: 0.05s; }
+.project-item:nth-child(2) { animation-delay: 0.1s; }
+.project-item:nth-child(3) { animation-delay: 0.15s; }
+
+.writing-list li {
+    animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.writing-list li:nth-child(1) { animation-delay: 0.05s; }
+.writing-list li:nth-child(2) { animation-delay: 0.1s; }
+.writing-list li:nth-child(3) { animation-delay: 0.15s; }
+
+@media (prefers-reduced-motion: reduce) {
+    .project-item,
+    .writing-list li {
+        animation: none;
+    }
+    .project-item,
+    .project-arrow,
+    .writing-item,
+    .nav-links a,
+    .theme-toggle,
+    .footer-links a {
+        transition: none;
     }
 }

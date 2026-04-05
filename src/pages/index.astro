@@ -21,32 +21,6 @@ const formatDate = (date: Date) =>
     year: 'numeric',
   });
 
-const projects = [
-  {
-    name: 'Gear Protocol',
-    desc: 'Core contributor. Actor-model smart contracts with async messaging for WebAssembly programs.',
-    lang: 'Rust',
-    url: 'https://github.com/gear-tech/gear',
-  },
-  {
-    name: 'vara-wallet',
-    desc: 'Agentic CLI wallet for Vara Network. Structured JSON output, encrypted wallets, program interaction.',
-    lang: 'TypeScript',
-    url: 'https://github.com/ukint-vs/vara-wallet',
-  },
-  {
-    name: 'vara-skills',
-    desc: 'Portable skill pack teaching coding agents the Sails development workflow. 15+ skills from architecture to deployment.',
-    lang: 'Skills',
-    url: 'https://github.com/ukint-vs/vara-skills',
-  },
-  {
-    name: 'Awesome Gear',
-    desc: 'Curated list of Gear Protocol resources, tools, and applications.',
-    lang: 'Community',
-    url: 'https://github.com/gear-tech/awesome-gear',
-  },
-];
 ---
 
 <BaseLayout title="~/ukint-vs" description="Developer blog by Vadim Smirnov">
@@ -61,9 +35,20 @@ const projects = [
             <img src="/img/cat-dark.webp" alt="Cat mascot" class="cat-dark" />
           </span>
           <p class="intro-bio">
-            Software engineer at <a href="https://gear-tech.io">Gear Protocol</a> / <a href="https://vara.network">Vara Network</a>.
-            Building AI agent tooling for Web3 — from on-chain wallets to coding skills
-            that teach agents how to ship decentralized apps.
+            Founding engineer at <a href="https://gear-tech.io">Gear Protocol</a>. In early 2021 I started building it
+            from scratch alongside its founder Nikolay Volf — before the team, before
+            the $12M raise, and before the world knew what it was.
+          </p>
+          <p class="intro-bio">
+            For the next two years I owned the Substrate dependency chain and core node
+            infrastructure. In 2023 I led the testnet and mainnet deployment of <a href="https://vara.network">Vara
+            Network</a> — the first Layer-1 built on Gear Protocol. I've been leading
+            network maintenance ever since.
+          </p>
+          <p class="intro-bio">
+            Lately I'm building tooling for AI agents on Vara: a CLI wallet, an x402
+            micropayment implementation, and a skill pack that teaches coding agents how
+            to build Sails programs without hallucinating the API.
           </p>
         </div>
         <div class="cat-mascot cat-desktop-only">
@@ -75,27 +60,61 @@ const projects = [
   </div>
   <div class="container">
 
-    <div class="now-block">
-      <span class="now-label">What I'm working on</span>
-      <p>
-        Building <strong>vara-wallet</strong> and <strong>vara-skills</strong> — giving AI agents
-        the tools to autonomously interact with the Vara blockchain, from deploying
-        programs to managing on-chain assets.
-      </p>
-    </div>
-
     <section id="projects">
       <h2 class="section-heading">Projects</h2>
       <ul class="projects-list">
-        {projects.map((project) => (
-          <li class="project-item">
-            <a href={project.url} target="_blank" rel="noopener noreferrer" class="project-link">
-              <span class="project-name">{project.name}</span>
-              <span class="project-lang">{project.lang}</span>
-            </a>
-            <p class="project-desc">{project.desc}</p>
-          </li>
-        ))}
+
+        <li class="project-item">
+          <div class="project-header">
+            <span class="project-name">Vara Network</span>
+            <span class="project-lang">L1</span>
+          </div>
+          <p class="project-role">Founding Engineer — Infrastructure &amp; Runtime</p>
+          <p class="project-desc">Led testnet and mainnet launch (Sept 2023). Running network maintenance to this day: validators, runtime upgrades, deployment pipelines.</p>
+          <a href="https://vara.network" target="_blank" rel="noopener noreferrer" class="project-arrow">→ vara.network</a>
+        </li>
+
+        <li class="project-item">
+          <div class="project-header">
+            <span class="project-name">Gear Protocol</span>
+            <span class="project-lang">Rust</span>
+          </div>
+          <p class="project-role">Founding Engineer &middot; Built from zero (2021)</p>
+          <p class="project-desc">A Substrate-based smart contract platform. Built from scratch with Nikolay Volf, pre-investment. Owned the Substrate dependency chain through the Vara mainnet launch.</p>
+          <a href="https://github.com/gear-tech/gear" target="_blank" rel="noopener noreferrer" class="project-arrow">→ gear-tech/gear</a>
+        </li>
+
+        <li class="project-item project-group">
+          <span class="project-group-label">AI Agent Tooling</span>
+          <p class="project-group-desc">Building the agentic-web stack on Vara.</p>
+          <ul class="project-sublist">
+            <li class="project-subitem">
+              <div class="project-header">
+                <span class="project-name">vara-skills</span>
+                <span class="project-lang">Skills</span>
+              </div>
+              <p class="project-desc">Portable skill pack for LLM coding agents. Covers the full Gear/Vara Sails workflow — spec to deployment. Ships as a Claude Code plugin, Codex skill, and OpenClaw wrapper.</p>
+              <a href="https://github.com/gear-foundation/vara-skills" target="_blank" rel="noopener noreferrer" class="project-arrow">→ gear-foundation/vara-skills</a>
+            </li>
+            <li class="project-subitem">
+              <div class="project-header">
+                <span class="project-name">vara-wallet</span>
+                <span class="project-lang">TypeScript</span>
+              </div>
+              <p class="project-desc">Agentic CLI wallet for Vara Network. Structured JSON output, encrypted wallets, program interaction.</p>
+              <a href="https://github.com/ukint-vs/vara-wallet" target="_blank" rel="noopener noreferrer" class="project-arrow">→ ukint-vs/vara-wallet</a>
+            </li>
+            <li class="project-subitem">
+              <div class="project-header">
+                <span class="project-name">x402-vara</span>
+                <span class="project-lang">TypeScript</span>
+              </div>
+              <p class="project-desc">x402 micropayment protocol for Vara. Lets any HTTP server charge per-request in VARA — agent-to-agent payments without EVM or stablecoins.</p>
+              <a href="https://github.com/gear-foundation/x402-vara" target="_blank" rel="noopener noreferrer" class="project-arrow">→ gear-foundation/x402-vara</a>
+            </li>
+          </ul>
+        </li>
+
       </ul>
     </section>
 
