@@ -58,7 +58,7 @@ All three fonts are load from `public/fonts/` as self-hosted woff2 files.
 --border-light:   #353940
 --accent:         #39fca8   /* mint green — punchy, terminal glow on dark */
 --accent-dim:     rgba(57, 252, 168, 0.08)
---ink:            #f6f3f3
+--ink:            #f0ece4
 ```
 
 **Why the modes feel different:** Light mode is warm parchment (editorial by day). Dark mode is neutral dark with a mint accent (terminal by night). This is intentional — not two separate brands, but the same person in two different environments. Don't try to make them match.
@@ -80,7 +80,7 @@ All three fonts are load from `public/fonts/` as self-hosted woff2 files.
 Two tiers — don't collapse them into a flat list:
 
 1. **Hero entries** (Vara Network, Gear Protocol): full project name + lang badge + italic role line + description + `→ link`
-2. **AI Agent Tooling group**: category chip (`font-size: 0.68rem; uppercase; letter-spacing: 0.1em; color: var(--text-tertiary)`) with left-border sub-list
+2. **AI Agent Tooling group**: category chip (`font-size: 0.75rem; uppercase; letter-spacing: 0.1em; color: var(--text-secondary)`) with left-border sub-list
 
 **Hover:** `box-shadow: inset 3px 0 0 var(--accent)` on hero items, `inset 2px` on sub-items. Arrow links slide `translateX(4px)` on row hover.
 

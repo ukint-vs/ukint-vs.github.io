@@ -211,12 +211,13 @@
       };
       document.addEventListener('visibilitychange', onPageVis);
 
+      ctx.font = `500 ${CHAR_SIZE}px "IBM Plex Mono", monospace`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
       function frame(now: number) {
         const elapsed = (now - t0) / 1000;
         ctx.clearRect(0, 0, parentW, scaledH);
-        ctx.font = `500 ${CHAR_SIZE}px "IBM Plex Mono", monospace`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
         ctx.fillStyle = accent;
 
         for (const p of particles) {

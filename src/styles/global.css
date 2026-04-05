@@ -488,9 +488,6 @@ footer {
     flex-direction: column;
     gap: 0.9rem;
 }
-.project-subitem {
-    /* inherits project-name, project-lang, project-desc styles */
-}
 
 /* === Home: Writing === */
 .writing-list {
