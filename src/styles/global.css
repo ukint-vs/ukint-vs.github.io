@@ -166,8 +166,13 @@ header nav {
     color: var(--text-tertiary);
     padding-bottom: 0.6rem;
 }
-.currently span {
+.currently span,
+.currently-link {
     color: var(--accent);
+    text-decoration: none;
+}
+.currently-link:hover {
+    opacity: 0.75;
 }
 .site-name {
     font-family: var(--mono);
@@ -385,9 +390,6 @@ footer {
     border-bottom: 1px solid var(--border-light);
     transition: box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.project-item:first-child {
-    border-top: 1px solid var(--border-light);
-}
 .project-item:last-child {
     border-bottom: none;
 }
@@ -399,6 +401,11 @@ footer {
     font-size: 0.95rem;
     font-weight: 500;
     color: var(--accent);
+    text-decoration: none;
+    transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.project-name:hover {
+    opacity: 0.75;
     text-decoration: none;
 }
 .project-subitem .project-name {
@@ -460,7 +467,7 @@ footer {
 }
 .project-group-label {
     font-family: var(--sans);
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;

@@ -12,6 +12,7 @@
   }
   #ascii-canvas {
     display: block;
+    will-change: transform;
   }
 </style>
 
@@ -182,7 +183,33 @@
       canvas.addEventListener('touchend', onTouchEnd);
 
       let animId = 0;
+      let isVisible = true;
+      let isPageVisible = !document.hidden;
       const t0 = performance.now();
+
+      function resume() {
+        if (!animId && isVisible && isPageVisible) {
+          animId = requestAnimationFrame(frame);
+        }
+      }
+      function pause() {
+        if (animId) {
+          cancelAnimationFrame(animId);
+          animId = 0;
+        }
+      }
+
+      const visObs = new IntersectionObserver((entries) => {
+        isVisible = entries[0].isIntersecting;
+        isVisible ? resume() : pause();
+      }, { threshold: 0 });
+      visObs.observe(canvas);
+
+      const onPageVis = () => {
+        isPageVisible = !document.hidden;
+        isPageVisible ? resume() : pause();
+      };
+      document.addEventListener('visibilitychange', onPageVis);
 
       function frame(now: number) {
         const elapsed = (now - t0) / 1000;
@@ -249,7 +276,10 @@
 
       cleanupFn = () => {
         cancelAnimationFrame(animId);
+        animId = 0;
         themeObs.disconnect();
+        visObs.disconnect();
+        document.removeEventListener('visibilitychange', onPageVis);
         canvas.removeEventListener('mousemove', onMove);
         canvas.removeEventListener('mouseleave', onLeave);
         canvas.removeEventListener('touchstart', onTouchStart);
