@@ -69,8 +69,8 @@
 }
 
 [data-theme="dark"] {
-    --bg: #2b2e33;
-    --bg-warm: #333740;
+    --bg: #292a2e;
+    --bg-warm: #30333a;
     --bg-code: #1e2127;
     --text: #e0ddd8;
     --text-secondary: #a8a29e;
@@ -79,7 +79,7 @@
     --border-light: #353940;
     --accent: #39fca8;
     --accent-dim: rgba(57, 252, 168, 0.08);
-    --ink: #f6f3f3;
+    --ink: #f0ece4;
 }
 
 /* === Reset === */
@@ -158,6 +158,16 @@ header nav {
     align-items: baseline;
     flex-wrap: wrap;
     gap: 0.5rem;
+}
+.currently {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-style: italic;
+    color: var(--text-tertiary);
+    padding-bottom: 0.6rem;
+}
+.currently span {
+    color: var(--accent);
 }
 .site-name {
     font-family: var(--mono);
@@ -268,6 +278,7 @@ footer {
     font-size: 1rem;
     line-height: 1.75;
     color: var(--text);
+    max-width: 58ch;
 }
 .intro-bio + .intro-bio {
     margin-top: 1rem;
@@ -449,11 +460,11 @@ footer {
 }
 .project-group-label {
     font-family: var(--sans);
-    font-size: 0.68rem;
+    font-size: 0.72rem;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--text-tertiary);
+    color: var(--text-secondary);
 }
 .project-group-desc {
     font-size: 0.85rem;
